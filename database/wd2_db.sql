@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.7.0
+-- version 4.9.1
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 31, 2017 at 05:24 AM
--- Server version: 10.1.26-MariaDB
--- PHP Version: 7.1.8
+-- Generation Time: Jun 27, 2022 at 05:30 PM
+-- Server version: 10.4.8-MariaDB
+-- PHP Version: 7.3.11
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -42,7 +42,7 @@ CREATE TABLE `address_table` (
 --
 
 INSERT INTO `address_table` (`address_id`, `user_id`, `country`, `postcode`, `address`, `town`) VALUES
-(9, 2, 'Brunei Darussalam', 'BE3119', 'No 48', 'BSB'),
+(9, 2, 'Indonesia', 'BE3119', 'No 48', 'BSB'),
 (10, 3, 'BSB', 'BSB', 'BSB', 'BSB');
 
 -- --------------------------------------------------------
@@ -54,8 +54,8 @@ INSERT INTO `address_table` (`address_id`, `user_id`, `country`, `postcode`, `ad
 CREATE TABLE `cart_table` (
   `cart_id` int(11) NOT NULL,
   `user_id` int(11) NOT NULL,
-  `date_buy` datetime NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE CURRENT_TIMESTAMP,
-  `flag` tinyint(1) NOT NULL DEFAULT '0'
+  `date_buy` datetime NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE current_timestamp(),
+  `flag` tinyint(1) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
@@ -66,7 +66,10 @@ INSERT INTO `cart_table` (`cart_id`, `user_id`, `date_buy`, `flag`) VALUES
 (12, 2, '2017-10-30 09:12:01', 1),
 (13, 2, '2017-10-31 10:24:58', 1),
 (14, 3, '2017-10-31 10:29:49', 1),
-(15, 2, '0000-00-00 00:00:00', 0);
+(15, 2, '2022-06-21 18:56:38', 1),
+(16, 2, '2022-06-22 16:53:36', 1),
+(17, 2, '2022-06-27 19:14:38', 1),
+(18, 2, '0000-00-00 00:00:00', 0);
 
 -- --------------------------------------------------------
 
@@ -85,27 +88,27 @@ CREATE TABLE `category_table` (
 --
 
 INSERT INTO `category_table` (`category_id`, `category_name`, `parent_category_id`) VALUES
-(19, 'Shoes', 0),
-(20, 'Jewellery', 0),
-(21, 'Watch', 0),
-(22, 'Clothing', 0),
-(23, 'Bags', 0),
+(19, 'Daerah Tinggi', 0),
+(20, 'Sejarah', 0),
+(21, 'Bawah Laut', 0),
+(22, 'Pantai', 0),
+(23, 'Alam Liar', 0),
 (25, 'Totes Bags', 23),
 (26, 'Wallets', 23),
 (27, 'Briefcase', 23),
-(28, 'Casual Shoe', 19),
-(29, 'Formal Shoe', 19),
-(30, 'Sandals', 19),
+(28, 'Snorkling', 21),
+(29, 'Villa Premium', 19),
+(30, 'Hiking', 19),
 (32, 'Bracelet', 20),
-(33, 'K-gold', 20),
+(33, 'Situs Ternama', 20),
 (34, 'Mechanical', 21),
-(35, 'Quartz', 21),
+(35, 'Scuba Diving', 21),
 (36, 'Sport', 21),
 (37, 'Digital', 21),
 (38, 'Hoodie', 22),
 (39, 'Jacket', 22),
 (40, 'Beanie', 22),
-(41, 'Basikal', 19);
+(41, 'Camp Gunung', 19);
 
 -- --------------------------------------------------------
 
@@ -118,8 +121,8 @@ CREATE TABLE `contact_table` (
   `full_name` varchar(100) NOT NULL,
   `email` varchar(100) NOT NULL,
   `message` text NOT NULL,
-  `submit_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `flag` tinyint(1) NOT NULL DEFAULT '0'
+  `submit_time` datetime NOT NULL DEFAULT current_timestamp(),
+  `flag` tinyint(1) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
@@ -141,7 +144,7 @@ CREATE TABLE `product_cart_table` (
   `cart_id` int(11) NOT NULL,
   `product_id` int(11) NOT NULL,
   `quantity` int(11) NOT NULL,
-  `add_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
+  `add_time` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
@@ -158,7 +161,12 @@ INSERT INTO `product_cart_table` (`product_cart_id`, `cart_id`, `product_id`, `q
 (7, 13, 2, 2, '2017-10-31 02:23:23'),
 (9, 13, 32, 1, '2017-10-31 02:23:47'),
 (10, 14, 2, 1, '2017-10-31 02:29:31'),
-(11, 15, 2, 1, '2017-10-31 02:36:33');
+(11, 15, 2, 1, '2017-10-31 02:36:33'),
+(12, 15, 2, 12, '2022-06-21 11:56:29'),
+(13, 16, 2, 2, '2022-06-22 09:53:19'),
+(14, 17, 5, 2, '2022-06-27 12:13:05'),
+(15, 17, 2, 1, '2022-06-27 12:14:26'),
+(16, 18, 2, 1, '2022-06-27 12:18:44');
 
 -- --------------------------------------------------------
 
@@ -211,7 +219,8 @@ INSERT INTO `product_images` (`product_images_id`, `product_id`, `image_link`) V
 (33, 33, 'uploads/wallet_1.jpg'),
 (34, 34, 'uploads/wallet_2.jpg'),
 (35, 35, 'uploads/wallet_3.jpg'),
-(36, 36, 'uploads/briefcase_1.jpg');
+(36, 36, 'uploads/briefcase_1.jpg'),
+(37, 37, 'uploads/Screenshot_(23).png');
 
 -- --------------------------------------------------------
 
@@ -227,8 +236,8 @@ CREATE TABLE `product_table` (
   `price` decimal(10,2) NOT NULL,
   `short_desc` varchar(50) NOT NULL,
   `description` text NOT NULL,
-  `add_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  `active_flag` tinyint(1) NOT NULL DEFAULT '0'
+  `add_time` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `active_flag` tinyint(1) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
@@ -270,7 +279,8 @@ INSERT INTO `product_table` (`product_id`, `category_id`, `seller_id`, `product_
 (33, 26, 1, 'LANSPACE Leather Wallet', '11.88', 'Card Holder Fashion', '<ul>\r\n	<li>Brand Name:LANSPACE</li>\r\n	<li>Item Type:Card &amp; ID Holders</li>\r\n	<li>Genuine Leather Type:Cow Leather</li>\r\n	<li>Style:Casual</li>\r\n	<li>Gender:Unisex</li>\r\n	<li>Closure Type:Zipper</li>\r\n	<li>Use:Credit Card</li>\r\n	<li>Item Length:11.3cm</li>\r\n	<li>Material Composition:Cow Leather</li>\r\n	<li>Item Width:9.5cm</li>\r\n	<li>Model Number:LW124</li>\r\n	<li>Pattern Type:Solid</li>\r\n	<li>Shape:Box</li>\r\n	<li>Item Weight:0.1kg</li>\r\n	<li>&nbsp;</li>\r\n</ul>\r\n', '2017-10-30 08:32:15', 0),
 (34, 26, 1, 'FAMOUSFAMILY Men\'s Vintage Wallet', '14.35', 'Retro Fashion Casual Wallet', '<ul>\r\n	<li>Brand Name:FAMOUSFAMILY</li>\r\n	<li>Main Material:Genuine Leather</li>\r\n	<li>Genuine Leather Type:Cow Leather</li>\r\n	<li>Gender:Men</li>\r\n	<li>Style:Vintage</li>\r\n	<li>Pattern Type:Solid</li>\r\n	<li>Closure Type:No Zipper</li>\r\n	<li>Wallets:Standard Wallets</li>\r\n	<li>Wallet Length:Short</li>\r\n	<li>Item Height:3.9inch</li>\r\n	<li>Item Length:3.7inch</li>\r\n	<li>Item Weight:100g / 3.5oz</li>\r\n	<li>Item Width:15mm / 0.6in</li>\r\n	<li>Material Composition:Cowhide Leather</li>\r\n	<li>Model Number:M8642-1</li>\r\n	<li>Lining Material:Polyester</li>\r\n</ul>\r\n', '2017-10-30 08:33:33', 0),
 (35, 26, 1, 'Laorentou Wallet ', '14.40', 'Genuine Leather Short Wallet', '<ul>\r\n	<li>Brand Name:LAORENTOU</li>\r\n	<li>Item Type:Wallet</li>\r\n	<li>Genuine Leather Type:Cow Leather</li>\r\n	<li>Wallet Length:Short</li>\r\n	<li>Lining Material:Polyester</li>\r\n	<li>Style:Casual</li>\r\n	<li>Gender:Men</li>\r\n	<li>Model Number:328J003L</li>\r\n	<li>Item Length:11cm</li>\r\n	<li>Interior:Photo Holder,Card Holder,Note Compartment</li>\r\n	<li>Closure Type:No Zipper</li>\r\n	<li>Pattern Type:Solid</li>\r\n	<li>Item Height:9.5cm</li>\r\n	<li>Item Width:2cm</li>\r\n	<li>Wallets:Standard Wallets</li>\r\n	<li>Material Composition:cowhide leather</li>\r\n	<li>Item Weight:0.3kg</li>\r\n	<li>Main Material:Genuine Leather</li>\r\n	<li>Size:11*9.5*2cm</li>\r\n	<li>Style 1:Luxury men wallet genuine leather purse men brand</li>\r\n</ul>\r\n', '2017-10-30 08:34:42', 0),
-(36, 27, 1, 'Business Men Briefcase Bag', '33.67', 'PU Leather LaptopBriefcase', '<ul>\r\n	<li>Brand Name:shunvbasha</li>\r\n	<li>Item Type:Briefcases</li>\r\n	<li>Material Composition:pu</li>\r\n	<li>Interior:Interior Compartment,Computer Interlayer,Cell Phone Pocket,Interior Zipper Pocket,Interior Slot Pocket</li>\r\n	<li>Lining Material:Polyester</li>\r\n	<li>Exterior:Silt Pocket</li>\r\n	<li>Closure Type:Zipper</li>\r\n	<li>Gender:Men</li>\r\n	<li>Item Weight:0.7kg</li>\r\n	<li>Model Number:zda8-05</li>\r\n	<li>Item Width:7inch</li>\r\n	<li>Pattern Type:Solid</li>\r\n	<li>Item Height:28inch</li>\r\n	<li>Number of Handles/Straps:Single</li>\r\n	<li>Style:Business</li>\r\n	<li>Handle/Strap Type:Soft Handle</li>\r\n	<li>Main Material:PU</li>\r\n	<li>Item Length:38inch</li>\r\n	<li>Style :European and American style</li>\r\n	<li>wholesale:Yes</li>\r\n</ul>\r\n', '2017-10-30 08:39:06', 0);
+(36, 27, 1, 'Business Men Briefcase Bag', '33.67', 'PU Leather LaptopBriefcase', '<ul>\r\n	<li>Brand Name:shunvbasha</li>\r\n	<li>Item Type:Briefcases</li>\r\n	<li>Material Composition:pu</li>\r\n	<li>Interior:Interior Compartment,Computer Interlayer,Cell Phone Pocket,Interior Zipper Pocket,Interior Slot Pocket</li>\r\n	<li>Lining Material:Polyester</li>\r\n	<li>Exterior:Silt Pocket</li>\r\n	<li>Closure Type:Zipper</li>\r\n	<li>Gender:Men</li>\r\n	<li>Item Weight:0.7kg</li>\r\n	<li>Model Number:zda8-05</li>\r\n	<li>Item Width:7inch</li>\r\n	<li>Pattern Type:Solid</li>\r\n	<li>Item Height:28inch</li>\r\n	<li>Number of Handles/Straps:Single</li>\r\n	<li>Style:Business</li>\r\n	<li>Handle/Strap Type:Soft Handle</li>\r\n	<li>Main Material:PU</li>\r\n	<li>Item Length:38inch</li>\r\n	<li>Style :European and American style</li>\r\n	<li>wholesale:Yes</li>\r\n</ul>\r\n', '2017-10-30 08:39:06', 0),
+(37, 28, 1, 'humanoidooooo', '2199.21', 'trafiking price', 'l amsdlk makmd aksm lkasm lkdmsa kdmaslk mdalk mdlkams lkmas d', '2022-06-16 13:54:42', 1);
 
 -- --------------------------------------------------------
 
@@ -283,7 +293,7 @@ CREATE TABLE `review_table` (
   `product_id` int(11) NOT NULL,
   `user_id` int(11) NOT NULL,
   `review` varchar(100) NOT NULL,
-  `post_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+  `post_time` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
@@ -310,7 +320,7 @@ CREATE TABLE `user_table` (
   `email` varchar(30) NOT NULL,
   `password` varchar(255) NOT NULL,
   `user_type` varchar(30) NOT NULL DEFAULT 'buyer',
-  `ban_flag` tinyint(1) NOT NULL DEFAULT '0'
+  `ban_flag` tinyint(1) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
@@ -319,8 +329,8 @@ CREATE TABLE `user_table` (
 
 INSERT INTO `user_table` (`user_id`, `first_name`, `last_name`, `company_name`, `username`, `email`, `password`, `user_type`, `ban_flag`) VALUES
 (1, 'Admin', 'Admin', '', 'admin', 'admin@admin.com', '$2y$10$2fsiOiSV9GmPDfBLbo5D7eanESB3cFNLXk0MEAADhkhmv2IQwGZUy', 'admin', 0),
-(2, 'Syahnur', 'Nizam', '', 'syahnur197', 'syahnurnizam197@gmail.com', '$2y$10$HDhpPaXA3vEuWw3Ia.3/gO.3v60XLy/us1PYP5YfkZq76rUzevTLO', 'user', 0),
-(3, 'Amirul', 'Ariffin', '', 'amirul', 'amirul@admin.com', '$2y$10$TmX.vE46l.FiGyLFG7j8PuBun4d14VcqUtHydClrGlm1pRZOEFTie', 'user', 0);
+(2, 'Alifian', 'Adexe', '', 'adexe', 'airdrop.adexe@gmail.com', '$2y$10$2fsiOiSV9GmPDfBLbo5D7eanESB3cFNLXk0MEAADhkhmv2IQwGZUy', 'user', 0),
+(3, 'Amirul', 'Ariffin', '', 'amirul', 'amirul@admin.com', '$2y$10$2fsiOiSV9GmPDfBLbo5D7eanESB3cFNLXk0MEAADhkhmv2IQwGZUy', 'user', 0);
 
 --
 -- Indexes for dumped tables
@@ -399,46 +409,55 @@ ALTER TABLE `user_table`
 --
 ALTER TABLE `address_table`
   MODIFY `address_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+
 --
 -- AUTO_INCREMENT for table `cart_table`
 --
 ALTER TABLE `cart_table`
-  MODIFY `cart_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `cart_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
+
 --
 -- AUTO_INCREMENT for table `category_table`
 --
 ALTER TABLE `category_table`
   MODIFY `category_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=42;
+
 --
 -- AUTO_INCREMENT for table `contact_table`
 --
 ALTER TABLE `contact_table`
   MODIFY `message_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+
 --
 -- AUTO_INCREMENT for table `product_cart_table`
 --
 ALTER TABLE `product_cart_table`
-  MODIFY `product_cart_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `product_cart_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+
 --
 -- AUTO_INCREMENT for table `product_images`
 --
 ALTER TABLE `product_images`
-  MODIFY `product_images_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=37;
+  MODIFY `product_images_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=38;
+
 --
 -- AUTO_INCREMENT for table `product_table`
 --
 ALTER TABLE `product_table`
-  MODIFY `product_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=37;
+  MODIFY `product_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=38;
+
 --
 -- AUTO_INCREMENT for table `review_table`
 --
 ALTER TABLE `review_table`
   MODIFY `review_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
 --
 -- AUTO_INCREMENT for table `user_table`
 --
 ALTER TABLE `user_table`
   MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
 --
 -- Constraints for dumped tables
 --

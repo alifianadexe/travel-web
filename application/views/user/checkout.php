@@ -28,7 +28,7 @@
 			</br>
 			<?= form_open('cart/checkout'); ?>
 			<div class="card">
-				<h3 class="card-header">Shipping Information</h3>
+				<h3 class="card-header">Personal Information</h3>
 				<div class="card-block px-3 py-3">
 					<div class="row">
 						<div class="form-group col-md-6">

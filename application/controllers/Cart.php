@@ -33,7 +33,7 @@ class CART extends CI_Controller {
             }
             $insert = $this->cart_model->addProductToCart($cart_id, $product_id, $quantity);
             if ($insert) {
-                $message = "Add product successfully";
+                $message = "Paket keberangkatan anda segera siap! Checkout sekarang?";
                 $array = array (
                     "success" => true,
                     "message" => $message,
