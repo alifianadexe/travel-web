@@ -1,23 +1,26 @@
-<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
-class User extends My_Controller
+<?php if (!defined('BASEPATH')) exit('No direct script access allowed');
+class User extends CI_Controller
 {
-    public function __construct() {
+    public function __construct()
+    {
         parent::__construct();
         $this->load->model('user_model');
         $this->load->model('cart_model');
         $this->load->model('gate_model');
     }
 
-    public function index() {
+    public function index()
+    {
         $this->gate_model->user_gate();
         $this->load->view('layout/user/header');
         $this->load->view('user/login');
         $this->load->view('layout/account/footer');
     }
-    
-    public function dashboard() {
+
+    public function dashboard()
+    {
         $this->gate_model->user_gate();
-        $data['userData']= $this->user_model->get_userdetail()->row();
+        $data['userData'] = $this->user_model->get_userdetail()->row();
         $this->load->view('layout/user/header', array('title' => 'User Dashboard'));
         $this->loadUserSidebar(null, null);
         $this->gate_model->user_gate();
@@ -25,22 +28,25 @@ class User extends My_Controller
         $this->load->view('layout/dashboard/logout');
         $this->load->view('layout/user/footer');
     }
-    
-    public function change_details() {		
+
+    public function change_details()
+    {
         $this->gate_model->user_gate();
-        $data['userData']= $this->user_model->get_userdetail()->row();
+        $data['userData'] = $this->user_model->get_userdetail()->row();
         $this->load->view('layout/user/header', array('title' => 'Change Details'));
         $this->loadUserSidebar('show_profile', 'change_detail_active');
         $this->load->view('user/change_details', $data);
         $this->load->view('layout/dashboard/logout');
         $this->load->view('layout/user/footer');
     }
-    
-    public function change_userdetail() {
+
+    public function change_userdetail()
+    {
         $this->gate_model->user_gate();
         $user = $this->user_model->get_userdetail()->row();
         $this->form_validation->set_rules(
-            'fname', 'First Name',
+            'fname',
+            'First Name',
             'trim|required|min_length[5]|max_length[20]|alpha',
             array(
                 'required' => 'You have not provided %s.',
@@ -51,7 +57,8 @@ class User extends My_Controller
         );
 
         $this->form_validation->set_rules(
-            'lname', 'Last Name',
+            'lname',
+            'Last Name',
             'trim|required|min_length[5]|max_length[20]|alpha',
             array(
                 'required' => 'You have not provided %s.',
@@ -66,70 +73,77 @@ class User extends My_Controller
         } else {
             $uniqueUsername = '|is_unique[user_table.username]';
         }
-        
+
         $this->form_validation->set_rules(
-            'username', 'Username',
-            'required|min_length[5]|max_length[12]'.$uniqueUsername,
+            'username',
+            'Username',
+            'required|min_length[5]|max_length[12]' . $uniqueUsername,
             array(
                 'required' => 'You have not provided %s.',
                 'is_unique' => 'This %s already exists.'
             )
         );
-            
+
         if ($user->email == $this->input->post('email')) {
             $unique = '';
         } else {
             $unique = '|is_unique[user_table.email]';
         }
-        $this->form_validation->set_rules('email', 'Email', 'trim|required|valid_email'.$unique, 
+        $this->form_validation->set_rules(
+            'email',
+            'Email',
+            'trim|required|valid_email' . $unique,
             array(
                 'required' => 'You have not provided %s.',
                 'is_unique' => 'This %s already exists.',
                 'valid_email' => 'You did not provide a valid E-Mail Address'
             )
         );
-        
+
         if ($this->form_validation->run() == FALSE) {
-            $this->session->set_flashdata('msg', validation_errors()); 
+            $this->session->set_flashdata('msg', validation_errors());
             redirect(site_url('user/change_details'));
         } else {
             $data['first_name'] = $this->input->post('fname');
-            $data['last_name'] 	= $this->input->post('lname');
-            $data['username'] 	= $this->input->post('username');
-            $data['email'] 		= $this->input->post('email');
+            $data['last_name']     = $this->input->post('lname');
+            $data['username']     = $this->input->post('username');
+            $data['email']         = $this->input->post('email');
             $message = 'Your account detail is successfully updated.';
-            $this->session->set_flashdata('msg', $message); 
+            $this->session->set_flashdata('msg', $message);
             $this->user_model->update_userdetail($this->session->userdata('userid'), $data);
             redirect(site_url('user/change_details'));
         }
     }
-    
-    public function change_password() {
+
+    public function change_password()
+    {
         $this->gate_model->user_gate();
-        $data['userData']	=	$this->user_model->get_userdetail()->row();
+        $data['userData']    =    $this->user_model->get_userdetail()->row();
         $this->load->view('layout/user/header', array('title' => 'Change Password'));
         $this->loadUserSidebar('show_profile', 'change_password_active');
         $this->load->view('user/change_password', $data);
         $this->load->view('layout/dashboard/logout');
         $this->load->view('layout/user/footer');
     }
-    
-    public function change_userpassword() {
+
+    public function change_userpassword()
+    {
         $this->gate_model->user_gate();
-        $data['oldpassword']	=	$this->input->post('oldpassword');
-        $data['newpassword']	=	$this->input->post('newpassword');
-        $data['renewpassword']	=	$this->input->post('renewpassword');
+        $data['oldpassword']    =    $this->input->post('oldpassword');
+        $data['newpassword']    =    $this->input->post('newpassword');
+        $data['renewpassword']    =    $this->input->post('renewpassword');
         $this->user_model->change_userpassword($data);
     }
-    
-    public function your_cart() {
+
+    public function your_cart()
+    {
         $this->gate_model->user_gate();
         $cartExist = $this->cart_model->hasActiveCart();
         if ($cartExist) {
             $cartid = $this->cart_model->getUserActiveCartID();
             $cartData = $data['cartData'] = $this->cart_model->getProductsInCart($cartid);
             $data['totalPrice'] = 0;
-            foreach($cartData as $cart) {
+            foreach ($cartData as $cart) {
                 $data['totalPrice'] += $cart->price * $cart->quantity;
             }
         }
@@ -141,21 +155,22 @@ class User extends My_Controller
         $this->load->view('layout/user/cart_modal');
         $this->load->view('layout/user/footer');
     }
-    
-    public function checkout() {
+
+    public function checkout()
+    {
         $this->gate_model->user_gate();
         $cartid = $this->cart_model->getUserActiveCartID();
         $cartData = $data['cartData'] = $this->cart_model->getProductsInCart($cartid);
         if (count($cartData) == 0) {
-            $message = '<div class="alert alert-danger" style="margin-top:10px" role="alert"> You have no products in your Order. Cannot proceed to checkout </div>'; 
+            $message = '<div class="alert alert-danger" style="margin-top:10px" role="alert"> You have no products in your Order. Cannot proceed to checkout </div>';
             $this->session->set_flashdata('msg', $message);
             redirect('user/your_cart');
         } else {
             $data['totalPrice'] = 0;
-            foreach($cartData as $cart) {
+            foreach ($cartData as $cart) {
                 $data['totalPrice'] += $cart->price * $cart->quantity;
             }
-            
+
             $data['user'] = $this->user_model->get_userdetail($this->session->userdata('userid'))->row();
             $shipping = $data['shipping_address'] = $this->user_model->get_shipping_address($this->session->userdata('userid'))->row_array();
             if (count($shipping) == 0) {
@@ -168,19 +183,19 @@ class User extends My_Controller
                     "town" => "",
                 );
             }
-    
+
             $this->load->view('layout/user/header', array('title' => 'Checkout'));
             $this->loadUserSidebar('show_cart_order', 'your_cart_active');
             $this->load->view('user/checkout', $data);
             $this->load->view('layout/dashboard/logout');
             $this->load->view('layout/user/footer');
         }
-        
     }
-    
-    public function your_order() {
+
+    public function your_order()
+    {
         $orders = $this->cart_model->getAllUserOrders()->result();
-        foreach($orders as $order) {
+        foreach ($orders as $order) {
             $order->totalPrice = $this->cart_model->getTotalCartPrice($order->cart_id);
         }
         $data["orders"] = $orders;
@@ -190,8 +205,9 @@ class User extends My_Controller
         $this->load->view('layout/dashboard/logout');
         $this->load->view('layout/user/footer');
     }
-    
-    public function view_order($cartid) {
+
+    public function view_order($cartid)
+    {
         $this->gate_model->user_gate();
         $status = $this->cart_model->userCartChecking($cartid);
         if (!$status) {
@@ -201,7 +217,7 @@ class User extends My_Controller
         } else {
             $cartData = $data['cartData'] = $this->cart_model->getProductsInCart($cartid);
             $data['totalPrice'] = 0;
-            foreach($cartData as $cart) {
+            foreach ($cartData as $cart) {
                 $data['totalPrice'] += $cart->price * $cart->quantity;
             }
             $this->load->view('layout/user/header', array('title' => 'Your History Order'));
@@ -211,7 +227,5 @@ class User extends My_Controller
             $this->load->view('layout/user/cart_modal');
             $this->load->view('layout/user/footer');
         }
-        
     }
-    
 }
