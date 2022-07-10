@@ -1,4 +1,3 @@
-
 <!-- Page Content -->
 <div class="container">
 	<?php echo $this->session->flashdata("success"); ?>
@@ -7,20 +6,20 @@
 		<div class="col-lg-3">
 			<h3 class="my-4">Mari Pergi Ke.... </h3>
 			<ul class="list-group">
-				<?php foreach( $categoryData as $category ): ?>
+				<?php foreach ($categoryData as $category) : ?>
 					<li class="list-group-item">
 						<a data-toggle="collapse" href="#<?= $category->category_id; ?>SubListGroup">
 							<div>
 								<?= $category->category_name; ?>
-								<?php if(count($category->subCategory) != 0): ?>
+								<?php if (count($category->subCategory) != 0) : ?>
 									<i class="fa fa-chevron-right pull-right" aria-hidden="true"></i>
 								<?php endif; ?>
 							</div>
 						</a>
 						<div id="<?= $category->category_id; ?>SubListGroup" class="panel-collapse collapse">
 							<ul class="list-unstyled">
-								<?php 
-									foreach( $category->subCategory as $subCat ): 
+								<?php
+								foreach ($category->subCategory as $subCat) :
 								?>
 									<li class="list-group-item" style="border: none;">
 										<div>
@@ -43,7 +42,7 @@
 		<div class="col-lg-9">
 			<div id="search-bar" class=" mt-4 mb-2">
 				<div class="input-group">
-					<input type="text" name="search" id="search" class="form-control" placeholder="Search Product..."/>
+					<input type="text" name="search" id="search" class="form-control" placeholder="Search Product..." />
 					<span class="input-group-btn">
 						<button class="btn btn-primary" type="button">
 							<i class="fa fa-search"></i>
@@ -52,7 +51,7 @@
 				</div>
 			</div>
 
-			<div  id="content">
+			<div id="content">
 
 				<?= form_open(); ?>
 				<div id="carouselExampleIndicators" class="carousel slide my-4" data-ride="carousel">
@@ -63,13 +62,13 @@
 					</ol>
 					<div class="carousel-inner" role="listbox">
 						<div class="carousel-item active">
-							<img class="d-block img-fluid" src="<?= base_url('style/assets/images/headline/top-brand.jpg')?>" alt="First slide">
+							<img class="d-block img-fluid" src="<?= base_url('style/assets/images/headline/top-brand.jpg') ?>" alt="First slide">
 						</div>
 						<div class="carousel-item">
-							<img class="d-block img-fluid" src="<?= base_url('style/assets/images/headline/fab.jpg')?>" alt="Second slide">
+							<img class="d-block img-fluid" src="<?= base_url('style/assets/images/headline/fab.jpg') ?>" alt="Second slide">
 						</div>
 						<div class="carousel-item">
-							<img class="d-block img-fluid" src="<?= base_url('style/assets/images/headline/projector.jpg')?>"alt="Third slide">
+							<img class="d-block img-fluid" src="<?= base_url('style/assets/images/headline/projector.jpg') ?>" alt="Third slide">
 						</div>
 					</div>
 					<a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
@@ -85,47 +84,47 @@
 
 
 				<div class="row">
-					<?php 
-						foreach($sixProducts as $product): 
+					<?php
+					foreach ($sixProducts as $product) :
 					?>
-					<div class="col-lg-4 col-md-6 mb-4">
-						<div class="card h-100">
-							<a href="<?= base_url(); ?>index.php/Shop/product/<?= $product->product_id; ?>">
-								<img class="card-img-top" src="<?= base_url($product->image_link); ?>" alt="" height="300px">
-							</a>
-							<div class="card-body">
-								<h5 class="card-title">
-									<a href="<?= base_url(); ?>index.php/Shop/product/<?= $product->product_id; ?>"><?= $product->product_name; ?></a>
-								</h5>
-								<h6>
-									B$ <?= $product->price; ?>
-								</h6>
-								<p class="card-text"><?= $product->short_desc; ?></p>
-							</div>
-							<div class="card-footer">
-								<!-- <?= form_open(site_url('cart/addToCart'), array( "id" => "addToCart_$product->product_id")); ?> -->
-								<!-- <small class="text-muted">&#9733; &#9733; &#9733; &#9733; &#9734;</small> -->
-								<div class="row">
-									<div class="col-md-4 mt-2">Untuk</div>	
-									<div class="col-md-4">
-										<input type="number" name="quantity" class="form-control"  id="quantity_<?= $product->product_id; ?>" /> 
-									</div>
-									<div class="col-md-4 mt-2">Orang</div>	
+						<div class="col-lg-4 col-md-6 mb-4">
+							<div class="card h-100">
+								<a href="<?= base_url(); ?>index.php/Shop/product/<?= $product->product_id; ?>">
+									<img class="card-img-top" src="<?= $product->image_link; ?>" alt="" height="300px">
+								</a>
+								<div class="card-body">
+									<h5 class="card-title">
+										<a href="<?= base_url(); ?>index.php/Shop/product/<?= $product->product_id; ?>"><?= $product->product_name; ?></a>
+									</h5>
+									<h6>
+										B$ <?= $product->price; ?>
+									</h6>
+									<p class="card-text"><?= $product->short_desc; ?></p>
 								</div>
-								<input type="hidden" name="product_id" class="form-control" value="<?= $product->product_id; ?>"/>
-								<br>
-								<button class="pull-right btn btn-block btn-primary" type="button" onclick="addToCart(<?= $product->product_id; ?>)">
-									<span class="fa fa-plane pull-left"></span>
-									Ayo Berangkat! 		
-								</button>
-								<!-- <?= form_close(); ?> -->
+								<div class="card-footer">
+									<!-- <?= form_open(site_url('cart/addToCart'), array("id" => "addToCart_$product->product_id")); ?> -->
+									<!-- <small class="text-muted">&#9733; &#9733; &#9733; &#9733; &#9734;</small> -->
+									<div class="row">
+										<div class="col-md-4 mt-2">Untuk</div>
+										<div class="col-md-4">
+											<input type="number" name="quantity" class="form-control" id="quantity_<?= $product->product_id; ?>" />
+										</div>
+										<div class="col-md-4 mt-2">Orang</div>
+									</div>
+									<input type="hidden" name="product_id" class="form-control" value="<?= $product->product_id; ?>" />
+									<br>
+									<button class="pull-right btn btn-block btn-primary" type="button" onclick="addToCart(<?= $product->product_id; ?>)">
+										<span class="fa fa-plane pull-left"></span>
+										Ayo Berangkat!
+									</button>
+									<!-- <?= form_close(); ?> -->
+								</div>
 							</div>
 						</div>
-					</div>
 					<?php endforeach; ?>
 				</div>
 				<!-- /.row -->
-			<?= $link; ?>
+				<?= $link; ?>
 			</div>
 
 		</div>
